@@ -37,8 +37,6 @@ class HttpClient:
 
         async with httpx.AsyncClient(timeout=timeout, headers=merged_headers) as client:
             try:
-                print("ФЫФЫВ")
-                print(url, method, params, json)
                 response = await client.request(
                     method=method,
                     url=url,

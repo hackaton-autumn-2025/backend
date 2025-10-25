@@ -5,6 +5,7 @@ import os
 import sys
 
 from src.infrastructure.database.base import Base
+from src.infrastructure.database.models import UserModel
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

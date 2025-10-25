@@ -59,8 +59,10 @@ class UserService:
             raise UserNotFoundError(id=user_id)
         return UserResponse.model_validate(user_dto.__dict__)
 
-    # TODO
-    async def update_user(self, user_id, user_update_dto: UpdateUserDTO):
+    async def update_user(self, user_id, user_update_dto: UpdateUserDTO) -> UserResponse | None:
         if not user_update_dto.has_changes():
             return None
-        await self.repository.update_user(user_id, user_update_dto)
+        if not await self.repository.get_by_id(user_id):
+            raise UserNotFoundError(id=user_id)
+        user_dto = await self.repository.update_user(user_id, user_update_dto)
+        return UserResponse.model_validate(user_dto.__dict__)

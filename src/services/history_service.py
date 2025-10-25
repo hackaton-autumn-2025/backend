@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from src.exceptions.history_exceptions import HistoryNotFoundError
 from src.repositories.history_repo import HistoryRepository
-from src.schemas.history import HistoryResponseSchema, HistoryCreateSchema
+from src.schemas.history import HistoryCreateSchema, HistoryResponseSchema
 
 
 @dataclass(kw_only=True, frozen=True, slots=True)

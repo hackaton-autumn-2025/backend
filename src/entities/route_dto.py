@@ -1,19 +1,9 @@
-from dataclasses import asdict, dataclass, is_dataclass
+from dataclasses import dataclass
 from datetime import time
 
 from src.enums.route import ClientLevel, TransportMode
 from src.schemas.route_schemas import Coordinate
 
-
-def to_jsonable(obj):
-    if is_dataclass(obj):
-        return {k: to_jsonable(v) for k, v in asdict(obj).items()}
-    elif isinstance(obj, list):
-        return [to_jsonable(v) for v in obj]
-    elif isinstance(obj, time):
-        return obj.strftime("%H:%M:%S")
-    else:
-        return obj
 
 @dataclass
 class RouteBaseDTO:
@@ -35,6 +25,7 @@ class KommivoyajerRoutePointDTO(RouteBaseDTO):
 @dataclass
 class RoutePointDTO(RouteBaseDTO):
     client_level: ClientLevel
+
 
 
 @dataclass

@@ -32,13 +32,16 @@ class UserRepository:
             return self.model.to_dto(user_model)
         return None
 
-    async def update_user(self, user_id: int, user_update: UpdateUserDTO):
+    async def update_user(self, user_id: int, user_update: UpdateUserDTO) -> UserInternalDTO | None:
         stmt = (
             update(self.model)
             .where(self.model.id == user_id)
             .values(**vars(user_update))
         )
-
-        updated_user = await self._session.scalar(stmt)
+        await self._session.execute(stmt)
         await self._session.commit()
-        return updated_user
+
+        user_model = await self._session.get(self.model, user_id)
+        if user_model:
+            return self.model.to_dto(user_model)
+        return None

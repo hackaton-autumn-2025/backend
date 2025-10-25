@@ -8,7 +8,7 @@ from src.controllers.dependencies.user_service import (
 )
 from src.core.configs import settings
 from src.core.security import create_jwt
-from src.entities.user_dto import CreateUserDTO, LoginDTO
+from src.entities.user_dto import CreateUserDTO, LoginDTO, UpdateUserDTO
 from src.enums import TokenType
 from src.exceptions.service_errors import ServiceError
 from src.exceptions.user_exceptions import (
@@ -16,7 +16,7 @@ from src.exceptions.user_exceptions import (
     UserAlreadyExistError,
     UserNotFoundError,
 )
-from src.schemas import Token, UserCreateRequest, UserResponse
+from src.schemas import Token, UserCreateRequest, UserResponse, UserUpdateRequest
 
 router = APIRouter(prefix="/user", tags=["Пользователь"])
 
@@ -105,3 +105,24 @@ async def refresh_access_token(
         access_token=new_access_token,
         refresh_token=new_refresh_token,
     )
+
+
+@router.patch(
+    "/update",
+    response_model=UserResponse,
+    summary="Обновить данные пользователя",
+    status_code=status.HTTP_200_OK,
+)
+async def update_profile(
+    user_update: UserUpdateRequest,
+    current_user: CurrentUserDI,
+    service: UserServiceDI
+):
+    try:
+        user_update_dto = UpdateUserDTO.from_user_update_request(user_update)
+        return await service.update_user(user_id=current_user.id, user_update_dto=user_update_dto)
+    except UserNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Пользователь не авторизован или токен не действителен",
+        ) from None

@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, time
 
 from src.enums import UserRole
+from src.schemas import UserUpdateRequest
 
 
 @dataclass
@@ -20,37 +21,11 @@ class UserInternalDTO:
     is_active: bool
     created_at: datetime
     updated_at: datetime
+    work_start: time
+    work_end: time
     id: int | None = None
-
-    @classmethod
-    def from_create_dto(
-        cls,
-        create_dto: CreateUserDTO,
-        hashed_password: str,
-        created_at: datetime | None = None,
-        updated_at: datetime | None = None,
-    ) -> "UserInternalDTO":
-        now = datetime.now()
-        return cls(
-            name=create_dto.name,
-            hashed_password=hashed_password,
-            role=create_dto.role,
-            is_active=create_dto.is_active,
-            created_at=created_at or now,
-            updated_at=updated_at or now,
-        )
-
-    @classmethod
-    def from_model(cls, user_model) -> "UserInternalDTO":
-        return cls(
-            id=user_model.id,
-            name=user_model.name,
-            hashed_password=user_model.hashed_password,
-            role=user_model.role,
-            is_active=user_model.is_active,
-            created_at=user_model.created_at,
-            updated_at=user_model.updated_at,
-        )
+    lunch_start: time | None = None
+    lunch_end: time | None = None
 
 
 @dataclass
@@ -77,20 +52,40 @@ class UserResponseDTO:
 @dataclass
 class UpdateUserDTO:
     name: str | None = None
-    password: str | None = None
-    role: UserRole | None = None
-    is_active: bool | None = None
+
+    work_start: time | None = None
+    work_end: time | None = None
+    lunch_start: time | None = None
+    lunch_end: time | None = None
 
     def has_changes(self) -> bool:
         return any(
             (
                 self.name is not None,
-                self.password is not None,
-                self.role is not None,
-                self.is_active is not None,
+                self.work_start is not None,
+                self.work_end is not None,
+                self.lunch_start is not None,
+                self.lunch_end is not None
+
             )
         )
 
+    @classmethod
+    def from_user_update_request(cls, request: UserUpdateRequest) -> 'UpdateUserDTO':
+        dto = cls()
+
+        if request.name is not None:
+            dto.name = request.name
+        if request.work_start is not None:
+            dto.work_start = request.work_start
+        if request.work_end is not None:
+            dto.work_end = request.work_end
+        if request.lunch_start is not None:
+            dto.lunch_start = request.lunch_start
+        if request.lunch_end is not None:
+            dto.lunch_end = request.lunch_end
+
+        return dto
 
 @dataclass
 class LoginDTO:

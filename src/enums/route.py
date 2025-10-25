@@ -4,7 +4,7 @@ from enum import StrEnum, unique
 @unique
 class ClientLevel(StrEnum):
     VIP = "VIP"
-    CLASSIC = "CLASSIC"
+    STANDART = "STANDART"
 
 @unique
 class TransportMode(StrEnum):
