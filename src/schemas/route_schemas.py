@@ -1,6 +1,6 @@
 from datetime import time
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from src.enums.route import ClientLevel, TransportMode
 
@@ -12,7 +12,7 @@ class Coordinate(BaseModel):
 
 class RouteSchema(BaseModel):
     address: str
-    coordinate: Coordinate
+    coordinate: Coordinate | None = Field(None)
     work_start: time
     work_end: time
     lunch_start: time

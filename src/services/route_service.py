@@ -14,7 +14,13 @@ class RouteService:
     _http_client: HttpClientDI
 
     async def create_route(self, routes: RoutesPointDTO) -> RoadNetworkResponseSchema:
-        points = RoutePointResponseSchema(ordered_coordinates=[Coordinate(lat=12.11,lon=121.11), Coordinate(lat=12.11,lon=121.11)])#await self.__get_route_by_neyro(routes=routes)
+        coordinates = [
+            Coordinate(lat=point.lat, lon=point.lon)
+            for point in routes.routes_point
+            if point.lat is not None and point.lon is not None
+        ]
+
+        points = RoutePointResponseSchema(ordered_coordinates=coordinates)
         road_marking = await self.__get_road_markings(points=points)
         return road_marking
 

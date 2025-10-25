@@ -8,8 +8,8 @@ from src.schemas.route_schemas import Coordinate
 @dataclass
 class RouteBaseDTO:
     address: str
-    lat: float
-    lon: float
+    lat: float | None
+    lon: float | None
     work_start: time
     work_end: time
     lunch_start: time

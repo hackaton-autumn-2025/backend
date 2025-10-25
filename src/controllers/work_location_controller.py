@@ -1,3 +1,5 @@
+import random
+
 from fastapi import APIRouter, status
 
 from src.controllers.dependencies.route_service import RouteServiceDI
@@ -24,7 +26,7 @@ async def create_route(users_routes: ListRouteRequestSchema, service: RouteServi
         RoutesPointDTO(
             start_time=users_routes.start_time,
             transport_mode=users_routes.transport_mode,
-            traffic_level=3,
+            traffic_level=random.randint(3,6),
             routes_point=[
                 RoutePointDTO(
                     address=route.address,
