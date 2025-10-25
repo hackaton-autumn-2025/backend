@@ -1,12 +1,11 @@
-from dataclasses import asdict, dataclass
-
-from fastapi.encoders import jsonable_encoder
+from dataclasses import dataclass
 
 from src.core.configs import settings
 from src.entities.route_dto import RoutesPointDTO
 from src.infrastructure.dependencies import HttpClientDI
 from src.schemas.road_network_schemas import RoadNetworkResponseSchema, WayPointSchema
 from src.schemas.route_schemas import Coordinate, RoutePointResponseSchema
+from src.utils import prepare_optimize_route_data
 
 
 @dataclass(kw_only=True, frozen=True, slots=True)
@@ -14,19 +13,12 @@ class RouteService:
     _http_client: HttpClientDI
 
     async def create_route(self, routes: RoutesPointDTO) -> RoadNetworkResponseSchema:
-        coordinates = [
-            Coordinate(lat=point.lat, lon=point.lon)
-            for point in routes.routes_point
-            if point.lat is not None and point.lon is not None
-        ]
-
-        points = RoutePointResponseSchema(ordered_coordinates=coordinates)
+        points = await self.__get_route_by_neyro(routes)
         road_marking = await self.__get_road_markings(points=points)
         return road_marking
 
     async def __get_route_by_neyro(self, routes: RoutesPointDTO) -> RoutePointResponseSchema:
-        route_payload = jsonable_encoder([asdict(r) for r in routes.routes_point])
-
+        route_payload = prepare_optimize_route_data(routes)
         response = await self._http_client.post(
             url=settings.infra_settings.NEYRO_API,
             json=route_payload
@@ -35,8 +27,8 @@ class RouteService:
 
     async def __get_road_markings(self, points: RoutePointResponseSchema) -> RoadNetworkResponseSchema:
         points = points.model_dump()
-        ordered_coordinates = points.get("ordered_coordinates")
-        coords_str = ";".join(f"{p['lon']},{p['lat']}" for p in ordered_coordinates)
+        route_coordinates = points.get("route_coordinates")
+        coords_str = ";".join(f"{p['lon']},{p['lat']}" for p in route_coordinates)
 
         params = {
             "overview": "full",

@@ -45,14 +45,12 @@ class HttpClient:
                     json=json,
                 )
                 logger.info(
-                    "✅ HTTP response received",
-                    extra={
-                        "status_code": response.status_code,
-                        "url": str(response.url),
-                        "response_text": (
-                            response.text[:500] + "..." if len(response.text) > 500 else response.text
-                        )
-                    }
+                    f"""✅ HTTP response received",
+                    "status_code": {response.status_code},
+                    "url": {str(response.url)},
+                    "response_text": {(
+                        response.text[:500] + "..." if len(response.text) > 500 else response.text
+                    )}"""
                 )
                 response.raise_for_status()
             except httpx.RequestError as exc:

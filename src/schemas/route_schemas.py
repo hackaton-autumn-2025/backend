@@ -1,6 +1,6 @@
 from datetime import time
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from src.enums.route import ClientLevel, TransportMode
 
@@ -31,5 +31,13 @@ class ListRouteRequestSchema(BaseModel):
     start_time: time
 
 class RoutePointResponseSchema(BaseModel):
-    ordered_coordinates: list[Coordinate]
+    route_coordinates: list[Coordinate]
+    arrival_times: list[str]
+    total_distance: float
+    total_time: float
 
+    @field_validator('route_coordinates', mode='before')
+    def validate_route_coordinates(cls, v):
+        if isinstance(v, list) and v and isinstance(v[0], list):
+            return [Coordinate(lat=coord[0], lon=coord[1]) for coord in v]
+        return v
