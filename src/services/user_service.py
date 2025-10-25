@@ -2,6 +2,13 @@ from dataclasses import dataclass
 
 from src.core.configs import settings
 from src.core.security import create_jwt, get_password_hash, verify_password
+from src.entities.user_dto import (
+    CreateUserDTO,
+    LoginDTO,
+    TokenDTO,
+    UpdateUserDTO,
+    UserResponseDTO,
+)
 from src.enums import TokenType
 from src.exceptions.user_exceptions import (
     InvalidCredentialsError,
@@ -10,13 +17,6 @@ from src.exceptions.user_exceptions import (
 )
 from src.repositories import UserRepository
 from src.schemas import Token, UserResponse
-from src.entities.user_dto import (
-    CreateUserDTO,
-    LoginDTO,
-    TokenDTO,
-    UpdateUserDTO,
-    UserResponseDTO,
-)
 
 
 @dataclass(kw_only=True, frozen=True, slots=True)

@@ -2,10 +2,10 @@ from sqlalchemy import Boolean, String
 from sqlalchemy import Enum as SAenum
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.enums import UserRole
-from src.infrastructure.base import Base
-from src.infrastructure.models.mixins.mixin import CreatedUpdatedMixin
 from src.entities.user_dto import UserInternalDTO
+from src.enums import UserRole
+from src.infrastructure.database.base import Base
+from src.infrastructure.database.models.mixins.mixin import CreatedUpdatedMixin
 
 
 class UserModel(Base, CreatedUpdatedMixin):

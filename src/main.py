@@ -4,8 +4,6 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.infrastructure.database import db_manager
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.core.configs import settings
@@ -13,6 +11,7 @@ from src.core.exception import setup_exception_handlers
 from src.core.log import logger
 from src.core.middleware import setup_middleware
 from src.core.routers import setup_routers
+from src.infrastructure.database.database import db_manager
 
 
 @asynccontextmanager

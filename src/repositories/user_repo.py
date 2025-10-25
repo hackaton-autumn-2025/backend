@@ -1,8 +1,8 @@
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infrastructure.models import UserModel
 from src.entities.user_dto import CreateUserDTO, UpdateUserDTO, UserInternalDTO
+from src.infrastructure.database.models import UserModel
 
 
 class UserRepository:

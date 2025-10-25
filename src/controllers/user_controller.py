@@ -8,6 +8,7 @@ from src.controllers.dependencies.user_service import (
 )
 from src.core.configs import settings
 from src.core.security import create_jwt
+from src.entities.user_dto import CreateUserDTO, LoginDTO
 from src.enums import TokenType
 from src.exceptions.service_errors import ServiceError
 from src.exceptions.user_exceptions import (
@@ -16,7 +17,6 @@ from src.exceptions.user_exceptions import (
     UserNotFoundError,
 )
 from src.schemas import Token, UserCreateRequest, UserResponse
-from src.entities.user_dto import CreateUserDTO, LoginDTO
 
 router = APIRouter(prefix="/user", tags=["Пользователь"])
 

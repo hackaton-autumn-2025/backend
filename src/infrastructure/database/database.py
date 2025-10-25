@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.pool import NullPool
 
 from src.core.configs import settings
-from src.infrastructure.base import Base
+from src.infrastructure.database.base import Base
 
 
 class DatabaseManager:
