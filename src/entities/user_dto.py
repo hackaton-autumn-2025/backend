@@ -70,22 +70,8 @@ class UpdateUserDTO:
             )
         )
 
-    @classmethod
-    def from_user_update_request(cls, request: UserUpdateRequest) -> 'UpdateUserDTO':
-        dto = cls()
-
-        if request.name is not None:
-            dto.name = request.name
-        if request.work_start is not None:
-            dto.work_start = request.work_start
-        if request.work_end is not None:
-            dto.work_end = request.work_end
-        if request.lunch_start is not None:
-            dto.lunch_start = request.lunch_start
-        if request.lunch_end is not None:
-            dto.lunch_end = request.lunch_end
-
-        return dto
+    def get_update_dict(self) -> dict:
+        return {k: v for k, v in self.__dict__.items() if v is not None}
 
 @dataclass
 class LoginDTO:

@@ -119,7 +119,7 @@ async def update_profile(
     service: UserServiceDI
 ):
     try:
-        user_update_dto = UpdateUserDTO.from_user_update_request(user_update)
+        user_update_dto = UpdateUserDTO(**user_update.model_dump())
         return await service.update_user(user_id=current_user.id, user_update_dto=user_update_dto)
     except UserNotFoundError:
         raise HTTPException(
