@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from src.core.configs import settings
 from src.entities.route_dto import RoutesPointDTO
 from src.infrastructure.dependencies import HttpClientDI
-from src.schemas.road_network_schemas import RoadNetworkResponseSchema
+from src.schemas.road_network_schemas import RoadNetworkResponseSchema, WayPointSchema
 from src.schemas.route_schemas import Coordinate, RoutePointResponseSchema
 
 
@@ -43,4 +43,15 @@ class RouteService:
             url=f"{settings.infra_settings.ROAD_NETWORK_API}{coords_str}",
             params=params
         )
-        return RoadNetworkResponseSchema.model_validate(response)
+
+        waypoints_data = [
+            WayPointSchema(
+                hint=wp["hint"],
+                location=Coordinate(lat=wp["location"][1], lon=wp["location"][0]),
+                name=wp["name"],
+                distance=wp["distance"]
+            )
+            for wp in response["waypoints"]
+        ]
+
+        return RoadNetworkResponseSchema(waypoints=waypoints_data)
