@@ -63,4 +63,4 @@ class UserService:
     async def update_user(self, user_id, user_update_dto: UpdateUserDTO):
         if not user_update_dto.has_changes():
             return None
-        user = await self.repository.update_user(user_id, user_update_dto)
+        await self.repository.update_user(user_id, user_update_dto)
