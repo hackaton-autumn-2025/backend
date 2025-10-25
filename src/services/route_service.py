@@ -25,7 +25,7 @@ class RouteService:
         return road_marking
 
     async def __get_route_by_neyro(self, routes: RoutesPointDTO) -> RoutePointResponseSchema:
-        route_payload = jsonable_encoder([asdict(r) for r in routes])
+        route_payload = jsonable_encoder([asdict(r) for r in routes.routes_point])
 
         response = await self._http_client.post(
             url=settings.infra_settings.NEYRO_API,

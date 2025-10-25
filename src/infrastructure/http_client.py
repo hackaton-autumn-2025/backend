@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from fastapi import HTTPException
 from typing import Any
 
 import httpx
@@ -7,7 +8,7 @@ from src.core.log import logger
 from src.enums.http import HttpMethod
 
 
-class HttpClientError(Exception):
+class HttpClientError(HTTPException):
     pass
 
 
@@ -55,9 +56,9 @@ class HttpClient:
                 )
                 response.raise_for_status()
             except httpx.RequestError as exc:
-                raise HttpRequestError(f"Ошибка при соединении: {exc}") from exc
+                raise HttpRequestError(status_code=501) from exc
             except httpx.HTTPStatusError as exc:
-                raise HttpResponseError(f"HTTP {exc.response.status_code}: {exc.response.text}") from exc
+                raise HttpResponseError(status_code=501) from exc
 
             return response.json()
 
