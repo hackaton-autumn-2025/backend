@@ -51,5 +51,8 @@ class RouteService:
             )
             for wp in response["waypoints"]
         ]
+        arrival_times = points.get("arrival_times")
+        total_distance = points.get("total_distance")
+        total_time = points.get("total_time")
 
-        return RoadNetworkResponseSchema(waypoints=waypoints_data)
+        return RoadNetworkResponseSchema(waypoints=waypoints_data, arrival_times=arrival_times, total_distance=total_distance, total_time=total_time)

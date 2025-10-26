@@ -11,6 +11,8 @@ class WayPointSchema(BaseModel):
 
 class RoadNetworkResponseSchema(BaseModel):
     waypoints: list[WayPointSchema]
+    arrival_times: list[str]
+    total_distance: float
+    total_time: float
 
 
-class 

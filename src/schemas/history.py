@@ -20,4 +20,9 @@ class HistoryCreateSchema(BaseHistorySchema):
     pass
 
 class HistoryResponseSchema(BaseHistorySchema):
+    id: int
     user_id: int
+    current_date: datetime | None
+    arrival_times: list[str] | None
+    total_distance: float | None
+    total_time: float | None

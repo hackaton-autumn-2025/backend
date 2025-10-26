@@ -34,7 +34,6 @@ class UserRepository:
 
     async def update_user(self, user_id: int, user_update: UpdateUserDTO) -> UserInternalDTO | None:
         update_data = user_update.get_update_dict()
-        print(update_data, "Priv")
         if not update_data:
             return None
         stmt = (

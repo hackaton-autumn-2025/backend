@@ -4,15 +4,13 @@ from sqlalchemy import (
     JSON,
     ForeignKey,
     Time,
-    DATETIME,
+    DATETIME, func, Integer, FLOAT
 )
 from sqlalchemy import (
     Enum as SAEnum,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.entities.history_dto import HistoryDTO
-from src.entities.route_dto import RoutePointDTO
 from src.enums.route import TransportMode
 from src.infrastructure.database.base import Base
 
@@ -28,19 +26,8 @@ class HistoryModel(Base):
     transport_mode: Mapped[TransportMode] = mapped_column(SAEnum(TransportMode), nullable=False)
 
     start_time: Mapped[time] = mapped_column(Time, nullable=False)
-    current_date: Mapped[datetime] = mapped_column(DATETIME, nullable=False)
+    current_date: Mapped[datetime] = mapped_column(server_default=func.now(),nullable=False)
+    arrival_times: Mapped[dict] = mapped_column(JSON, nullable=True)
+    total_distance: Mapped[float] = mapped_column(nullable=True)
+    total_time: Mapped[float] = mapped_column(Integer, nullable=True)
     user = relationship("UserModel", back_populates="history")
-
-    def to_dto(self) -> HistoryDTO:
-        routes_point = [
-            RoutePointDTO(**rp) for rp in self.routes_point
-        ]
-        return HistoryDTO(
-            user_id=self.user_id,
-            routes_point=routes_point,
-            traffic_level=self.traffic_level,
-            transport_mode=self.transport_mode,
-            start_time=self.start_time,
-            current_date=self.current_date,
-
-        )

@@ -29,9 +29,6 @@ class ListRouteRequestSchema(BaseModel):
     routes_request: list[RouteRequestSchema]
     transport_mode: TransportMode
     start_time: time
-    arrival_times: list[str]
-    total_distance: float
-    total_time: float
 
 class RoutePointResponseSchema(BaseModel):
     route_coordinates: list[Coordinate]

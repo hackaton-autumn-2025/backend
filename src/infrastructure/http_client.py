@@ -1,22 +1,11 @@
 from dataclasses import dataclass
-from fastapi import HTTPException
 from typing import Any
 
 import httpx
 
 from src.core.log import logger
 from src.enums.http import HttpMethod
-
-
-class HttpClientError(HTTPException):
-    pass
-
-
-class HttpRequestError(HttpClientError):
-    pass
-
-class HttpResponseError(HttpClientError):
-    pass
+from src.exceptions.http_client_exceptions import HttpRequestError, HttpResponseError
 
 
 @dataclass

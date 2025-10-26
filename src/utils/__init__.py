@@ -21,7 +21,6 @@ def get_traffic_level_by_time() -> int:
 
 def prepare_optimize_route_data(routes_dto: RoutesPointDTO) -> dict[str, Any]:
     def format_time(t: time | None) -> str | None:
-        """Форматирует время в формат HH:MM"""
         if not t:
             return None
         return t.strftime("%H:%M")
