@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from datetime import datetime, time
 
 from src.enums import UserRole
-from src.schemas import UserUpdateRequest
 
 
 @dataclass

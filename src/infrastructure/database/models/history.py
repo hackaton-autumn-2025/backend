@@ -1,11 +1,6 @@
-from datetime import time, datetime
+from datetime import datetime, time
 
-from sqlalchemy import (
-    JSON,
-    ForeignKey,
-    Time,
-    DATETIME, func, Integer, FLOAT
-)
+from sqlalchemy import JSON, ForeignKey, Integer, Time, func
 from sqlalchemy import (
     Enum as SAEnum,
 )

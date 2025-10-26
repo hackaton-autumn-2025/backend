@@ -36,7 +36,7 @@ class HttpClient:
                 logger.info(
                     f"""✅ HTTP response received",
                     "status_code": {response.status_code},
-                    "url": {str(response.url)},
+                    "url": {response.url!s},
                     "response_text": {(
                         response.text[:500] + "..." if len(response.text) > 500 else response.text
                     )}"""
