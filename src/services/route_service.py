@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 from src.core.configs import settings
 from src.entities.route_dto import RoutesPointDTO
@@ -17,7 +18,7 @@ class RouteService:
         road_marking = await self.__get_road_markings(points=points)
         return road_marking
 
-    async def create_demo_route(self) -> RoadNetworkResponseSchema:
+    async def create_demo_route(self) -> dict[str, Any]:
         points = await self.__get_demo_route_by_neyro()
         road_marking = await self.__get_road_markings(points=points)
         return road_marking

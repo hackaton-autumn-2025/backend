@@ -33,6 +33,14 @@ class RouteSchema(BaseModel):
 
         return self
 
+    @field_validator('stop_duration')
+    def validate_stop_duration(cls, v):
+        total_seconds = v.hour * 3600 + v.minute * 60 + v.second
+        if total_seconds < 60:
+            raise ValueError("Длительность остановки должна быть больше 1 минуты")
+        return v
+
+
 class RouteRequestKommivoyajerSchema(RouteSchema):
     pass
 
@@ -44,6 +52,12 @@ class ListRouteRequestSchema(BaseModel):
     transport_mode: TransportMode
     start_time: time
 
+    @field_validator('routes_request')
+    def validate_routes_count(cls, v):
+        if len(v) < 2:
+            raise ValueError("Список маршрутов должен содержать 2 элемента")
+        return v
+
 class RoutePointResponseSchema(BaseModel):
     route_coordinates: list[Coordinate]
     arrival_times: list[str]
@@ -54,16 +68,4 @@ class RoutePointResponseSchema(BaseModel):
     def validate_route_coordinates(cls, v):
         if isinstance(v, list) and v and isinstance(v[0], list):
             return [Coordinate(lat=coord[0], lon=coord[1]) for coord in v]
-        return v
-
-    @field_validator('route_coordinates')
-    def validate_routes_count(cls, v):
-        if len(v) < 2:
-            raise ValueError({
-                "type": "too_short",
-                "loc": ["routes_request"],
-                "msg": "Список маршрутов должен содержать 2 элемента",
-                "input": v,
-                "ctx": {"min_length": 2}
-            })
         return v

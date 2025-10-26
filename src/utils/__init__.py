@@ -3,6 +3,7 @@ from random import randint
 from typing import Any
 
 from src.entities.route_dto import RoutesPointDTO
+from src.enums.route import ClientLevel
 
 
 def get_traffic_level_by_time() -> int:
@@ -51,6 +52,8 @@ def prepare_optimize_route_data(routes_dto: RoutesPointDTO) -> dict[str, Any]:
 
     points = []
     for count, point in enumerate(routes_dto.routes_point):
+        client_level = point.client_level.value
+        client_level = client_level.capitalize() if client_level != ClientLevel.VIP.value else client_level
         points.append({
             "id": count,
             "address": point.address,
@@ -61,7 +64,7 @@ def prepare_optimize_route_data(routes_dto: RoutesPointDTO) -> dict[str, Any]:
             "lunch_start": format_time(point.lunch_start),
             "lunch_end": format_time(point.lunch_end),
             "stop_duration": format_stop_duration(point.stop_duration),
-            "client_level": point.client_level.value
+            "client_level": client_level
         })
 
     return {
