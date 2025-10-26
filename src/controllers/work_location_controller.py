@@ -42,24 +42,11 @@ async def create_route(users_routes: ListRouteRequestSchema, service: RouteServi
         )
     return await service.create_route(routes=routes_dto)
 
-#
-# @router.post(
-#     "/create_route_demo",
-#     response_model=RoutePointResponseSchema,
-#     summary="Построение демонстрационного маршрута",
-#     status_code=status.HTTP_200_OK,
-# )
-# async def create_demo_route(users_routes: list[RouteRequestKommivoyajerSchema], service: RouteServiceDI):
-#     routes_dto = [
-#         KommivoyajerRoutePointDTO(
-#             address=route.address,
-#             lat=route.coordinate.lat,
-#             lon=route.coordinate.lon,
-#             work_start=route.work_start,
-#             work_end=route.work_end,
-#             lunch_start=route.lunch_start,
-#             lunch_end=route.lunch_end,
-#             stop_duration=route.stop_duration
-#         )
-#         for route in users_routes
-#     ]
+
+@router.post(
+    "/demo",
+    summary="Построение демонстрационного маршрута",
+    status_code=status.HTTP_200_OK,
+)
+async def create_demo_route(service: RouteServiceDI):
+    await service.create_demo_route()

@@ -6,3 +6,5 @@ class InfrastructureSettings(BaseSetting):
 
     NEYRO_API: str
 
+    NEYRO_DEMO: str
+

@@ -17,11 +17,22 @@ class RouteService:
         road_marking = await self.__get_road_markings(points=points)
         return road_marking
 
+    async def create_demo_route(self) -> RoadNetworkResponseSchema:
+        points = await self.__get_demo_route_by_neyro()
+        road_marking = await self.__get_road_markings(points=points)
+        return road_marking
+
     async def __get_route_by_neyro(self, routes: RoutesPointDTO) -> RoutePointResponseSchema:
         route_payload = prepare_optimize_route_data(routes)
         response = await self._http_client.post(
             url=settings.infra_settings.NEYRO_API,
             json=route_payload
+        )
+        return RoutePointResponseSchema.model_validate(response)
+
+    async def __get_demo_route_by_neyro(self) -> RoutePointResponseSchema:
+        response = await self._http_client.get(
+            url=settings.infra_settings.NEYRO_DEMO,
         )
         return RoutePointResponseSchema.model_validate(response)
 
@@ -56,3 +67,4 @@ class RouteService:
         total_time = points.get("total_time")
 
         return RoadNetworkResponseSchema(waypoints=waypoints_data, arrival_times=arrival_times, total_distance=total_distance, total_time=total_time)
+
