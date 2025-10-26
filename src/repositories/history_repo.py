@@ -30,6 +30,9 @@ class HistoryRepository:
             traffic_level=dto.traffic_level,
             transport_mode=dto.transport_mode.value,
             start_time=dto.start_time,
+            arrival_times=dto.arrival_times,
+            total_distance=dto.total_distance,
+            total_time=dto.total_time
         )
         self._session.add(history_model)
         await self._session.commit()

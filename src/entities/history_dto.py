@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import time
+from datetime import time, datetime
 
 from src.entities.route_dto import RoutePointDTO
 from src.enums.route import TransportMode
@@ -12,6 +12,8 @@ class HistoryDTO:
     traffic_level: int
     transport_mode: TransportMode
     start_time: time
+    current_date: datetime
+
 
     def __post_init__(self):
         if not (1 <= self.traffic_level <= 10):

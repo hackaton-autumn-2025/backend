@@ -1,9 +1,10 @@
-from datetime import time
+from datetime import time, datetime
 
 from sqlalchemy import (
     JSON,
     ForeignKey,
     Time,
+    DATETIME,
 )
 from sqlalchemy import (
     Enum as SAEnum,
@@ -27,7 +28,7 @@ class HistoryModel(Base):
     transport_mode: Mapped[TransportMode] = mapped_column(SAEnum(TransportMode), nullable=False)
 
     start_time: Mapped[time] = mapped_column(Time, nullable=False)
-
+    current_date: Mapped[datetime] = mapped_column(DATETIME, nullable=False)
     user = relationship("UserModel", back_populates="history")
 
     def to_dto(self) -> HistoryDTO:
@@ -40,4 +41,6 @@ class HistoryModel(Base):
             traffic_level=self.traffic_level,
             transport_mode=self.transport_mode,
             start_time=self.start_time,
+            current_date=self.current_date,
+
         )

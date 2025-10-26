@@ -11,3 +11,6 @@ class WayPointSchema(BaseModel):
 
 class RoadNetworkResponseSchema(BaseModel):
     waypoints: list[WayPointSchema]
+
+
+class 
