@@ -49,4 +49,4 @@ async def create_route(users_routes: ListRouteRequestSchema, service: RouteServi
     status_code=status.HTTP_200_OK,
 )
 async def create_demo_route(service: RouteServiceDI):
-    await service.create_demo_route()
+    return await service.create_demo_route()

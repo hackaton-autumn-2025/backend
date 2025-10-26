@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Coroutine
 
 from src.core.configs import settings
 from src.entities.route_dto import RoutesPointDTO
@@ -20,8 +20,8 @@ class RouteService:
 
     async def create_demo_route(self) -> dict[str, Any]:
         points = await self.__get_demo_route_by_neyro()
-        road_marking = await self.__get_road_markings(points=points)
-        return road_marking
+        # road_marking = await self.__get_road_markings(points=points)
+        return points
 
     async def __get_route_by_neyro(self, routes: RoutesPointDTO) -> RoutePointResponseSchema:
         route_payload = prepare_optimize_route_data(routes)
@@ -31,11 +31,11 @@ class RouteService:
         )
         return RoutePointResponseSchema.model_validate(response)
 
-    async def __get_demo_route_by_neyro(self) -> RoutePointResponseSchema:
+    async def __get_demo_route_by_neyro(self) -> dict[str, Any]:
         response = await self._http_client.get(
             url=settings.infra_settings.NEYRO_DEMO,
         )
-        return RoutePointResponseSchema.model_validate(response)
+        return response
 
     async def __get_road_markings(self, points: RoutePointResponseSchema) -> RoadNetworkResponseSchema:
         points = points.model_dump()

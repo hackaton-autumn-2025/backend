@@ -43,9 +43,9 @@ class HttpClient:
                 )
                 response.raise_for_status()
             except httpx.RequestError as exc:
-                raise HttpRequestError(status_code=501) from exc
+                raise HttpRequestError(status_code=501, detail=str(exc)) from exc
             except httpx.HTTPStatusError as exc:
-                raise HttpResponseError(status_code=501) from exc
+                raise HttpResponseError(status_code=exc.response.status_code, detail=str(exc)) from exc
 
             return response.json()
 

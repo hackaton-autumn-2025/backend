@@ -30,17 +30,6 @@ def setup_exception_handlers(app: FastAPI) -> None:
             content={"detail": jsonable_encoder(exc)},
         )
 
-    @app.exception_handler(HTTPException)
-    async def http_exception_handler(request: Request, exc: HTTPException):
-        logger.info(
-            f"HTTPException: status_code={exc.status_code}, detail={exc.detail}"
-        )
-        headers = exc.headers if exc.headers else None
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={"detail": jsonable_encoder(exc.detail)},
-            headers=headers,
-        )
 
     @app.exception_handler(ValidationError)
     async def validation_exception_handler(request: Request, exc: ValidationError):
